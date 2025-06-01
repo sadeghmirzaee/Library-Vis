@@ -1,0 +1,82 @@
+{
+    "temporal-anchors": [
+        {
+            "id": "ta-001",
+            "name": "Ancient Library of Alexandria",
+            "date": "288 BC",
+            "link": "https://en.wikipedia.org/wiki/Library_of_Alexandria"
+        },
+        {
+            "id": "ta-002",
+            "name": "Gutenberg Press Invention",
+            "date": "1440",
+            "link": "https://en.wikipedia.org/wiki/Printing_press"
+        },
+        {
+            "id": "ta-013",
+            "name": "Copernicus's De revolutionibus Published",
+            "date": "1543",
+            "link": "https://en.wikipedia.org/wiki/De_revolutionibus_orbium_coelestium"
+        },
+        {
+            "id": "ta-003",
+            "name": "Discovery of America",
+            "date": "1492",
+            "link": "https://en.wikipedia.org/wiki/Christopher_Columbus"
+        },
+        {
+            "id": "ta-004",
+            "name": "Newton's Principia Published",
+            "date": "1687",
+            "link": "https://en.wikipedia.org/wiki/Principia_Mathematica"
+        },
+        {
+            "id": "ta-005",
+            "name": "Kant's Critique of Pure Reason",
+            "date": "1781",
+            "link": "https://en.wikipedia.org/wiki/Critique_of_Pure_Reason"
+        },
+        {
+            "id": "ta-006",
+            "name": "French Revolution",
+            "date": "1789",
+            "link": "https://en.wikipedia.org/wiki/French_Revolution"
+        },
+        {
+            "id": "ta-007",
+            "name": "First Public Library in America",
+            "date": "1731",
+            "link": "https://en.wikipedia.org/wiki/Library_Company_of_Philadelphia"
+        },
+        {
+            "id": "ta-008",
+            "name": "Darwin's Origin of Species Published",
+            "date": "1859",
+            "link": "https://en.wikipedia.org/wiki/On_the_Origin_of_Species"
+        },
+        {
+            "id": "ta-009",
+            "name": "Einstein's Special Relativity Paper",
+            "date": "1905",
+            "link": "https://en.wikipedia.org/wiki/Special_relativity"
+        },
+        {
+            "id": "ta-010",
+            "name": "World War I Begins",
+            "date": "1914",
+            "link": "https://en.wikipedia.org/wiki/World_War_I"
+        },
+        {
+            "id": "ta-011",
+            "name": "World War II Begins",
+            "date": "1939",
+            "link": "https://en.wikipedia.org/wiki/World_War_II"
+        },
+        {
+            "id": "ta-012",
+            "name": "World Wide Web Launch",
+            "date": "1991",
+            "link": "https://en.wikipedia.org/wiki/World_Wide_Web"
+        }
+    ]
+} 
