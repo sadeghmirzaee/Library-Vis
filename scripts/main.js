@@ -6,14 +6,11 @@ class Main {
         this.controls = null;
 
         // Groups for organizing the scene
-        this.bookVisualizationGroup = new THREE.Group();
         this.worldAnchorsGroup = new THREE.Group();
         this.scotGraphGroup = new THREE.Group();
 
         // Components
-        this.bookVisualization = null;
         this.worldCreator = null;
-        this.fileHandler = null;
         this.scotGraph = null;
 
         this.init();
@@ -33,7 +30,6 @@ class Main {
         this.scene.background = new THREE.Color(0x363636);
 
         // Add groups to scene
-        this.scene.add(this.bookVisualizationGroup);
         this.scene.add(this.worldAnchorsGroup);
         this.scene.add(this.scotGraphGroup);
 
@@ -70,14 +66,8 @@ class Main {
     }
 
     setupComponents() {
-        // Initialize book visualization
-        this.bookVisualization = new BookVisualization(this.bookVisualizationGroup);
-
         // Initialize world creator
         this.worldCreator = new WorldCreator(this.worldAnchorsGroup);
-
-        // Initialize file handler
-        this.fileHandler = new FileHandler(this.bookVisualization);
 
         // Initialize SCoT graph
         this.scotGraph = new SCoTGraph(this.scotGraphGroup);

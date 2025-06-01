@@ -7,44 +7,32 @@
 <body>
     <header>
         <div id="info">
-            3D Book Visualization<br>
+            SCoT 3D Visualization<br>
             Use mouse to rotate, scroll to zoom, and right-click to pan
         </div>
     </header>
     <div class="control-bar">
         <div id="controls">
-            X-Axis: 
-            <select id="xAxisSelect">
-                <option value="random">Random Distribution</option>
-                <option value="publisher">By Publisher</option>
-                <option value="year">By Publication Year</option>
-            </select>
             <button id="toggleView">Switch to 2D View</button>
         </div>
         <div id="fileUploadContainer">
-            <input type="file" id="fileInput" accept=".json" style="display: none;">
-            <button id="loadBooks">Choose Books JSON</button>
             <input type="file" id="temporalAnchorsInput" accept=".json" style="display: none;">
             <button id="loadTemporalAnchors">Load Temporal Anchors</button>
             <input type="file" id="scotGraphInput" accept=".json" style="display: none;">
             <button id="loadScoTGraph">Load SCoT Graph</button>
-            <span id="fileName"></span>
             <span id="scotFileName"></span>
         </div>
     </div>
     <div id="visualization-container">
         <canvas id="visualization-canvas"></canvas>
     </div>
-    <div id="bookInfo"></div>
     <div id="axisLabel"></div>
 
     <!-- Third-party libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js"></script>
-    <script src="scripts/fileHandler.js"></script>
     <script src="scripts/worldCreation.js"></script>
-    <script src="scripts/bookVisualization.js"></script>
     <script src="scripts/SCoT-graph.js"></script>
     <script src="scripts/main.js"></script>
 </body>
