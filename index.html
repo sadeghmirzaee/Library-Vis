@@ -7,13 +7,7 @@
 <body>
     <header>
         <div id="info">
-            SCoT 3D Visualization<br>
-            Use mouse to rotate, scroll to zoom, and right-click to pan
-        </div>
-    </header>
-    <div class="control-bar">
-        <div id="controls">
-            <button id="toggleView">Switch to 2D View</button>
+            SCoT 3D Visualization
         </div>
         <div id="fileUploadContainer">
             <input type="file" id="temporalAnchorsInput" accept=".json" style="display: none;">
@@ -22,10 +16,11 @@
             <button id="loadScoTGraph">Load SCoT Graph</button>
             <span id="scotFileName"></span>
         </div>
-    </div>
+    </header>
     <div id="visualization-container">
         <canvas id="visualization-canvas"></canvas>
     </div>
+    <div id="nodeInfo"></div>
     <div id="axisLabel"></div>
 
     <!-- Third-party libraries -->

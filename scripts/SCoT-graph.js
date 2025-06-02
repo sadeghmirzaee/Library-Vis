@@ -5,6 +5,7 @@ class SCoTGraph {
         this.nodeMeshes = [];
         this.edges = [];
         this.setupFileUpload();
+        this.setupMouseInteraction();
     }
 
     setupFileUpload() {
@@ -96,9 +97,24 @@ class SCoTGraph {
             const nodeSize = 0.5 + (normalizedWeight / 50) * 2;
             const nodeGeometry = new THREE.SphereGeometry(nodeSize, 16, 16);
 
-            // Create material with node's color or default
+            // Convert the color string to a THREE.js color value
+            let nodeColor;
+            if (node.colour) {
+                // Remove any spaces and ensure it's a proper hex color
+                const colorStr = node.colour.trim();
+                if (colorStr.startsWith('#')) {
+                    nodeColor = new THREE.Color(colorStr);
+                } else {
+                    // If it doesn't start with #, assume it's a CSS color name
+                    nodeColor = new THREE.Color(colorStr);
+                }
+            } else {
+                nodeColor = new THREE.Color(0x808080); // Default gray color
+            }
+
+            // Create material with node's color
             const nodeMaterial = new THREE.MeshBasicMaterial({
-                color: node.colour || 0x808080,
+                color: nodeColor,
                 opacity: node.opacity || 1,
                 transparent: true
             });
@@ -112,8 +128,11 @@ class SCoTGraph {
                 normalizedWeight    // Use normalized weight for z position
             );
 
-            // Store the node data in the mesh for later use
-            nodeMesh.userData = node;
+            // Store both the node data and original color for highlighting
+            nodeMesh.userData = {
+                ...node,
+                originalColor: nodeColor
+            };
 
             this.group.add(nodeMesh);
             this.nodeMeshes.push(nodeMesh);
@@ -180,5 +199,108 @@ class SCoTGraph {
         const sprite = new THREE.Sprite(spriteMaterial);
         sprite.scale.set(10, 2.5, 1);
         return sprite;
+    }
+
+    setupMouseInteraction() {
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+        const nodeInfoDiv = document.getElementById('nodeInfo');
+
+        // Set initial content
+        nodeInfoDiv.textContent = '';
+
+        window.addEventListener('mousemove', (event) => {
+            // Calculate mouse position in normalized device coordinates
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+            // Update the picking ray with the camera and mouse position
+            raycaster.setFromCamera(mouse, main.camera);
+
+            // Calculate objects intersecting the picking ray
+            const intersects = raycaster.intersectObjects(this.nodeMeshes);
+
+            if (intersects.length > 0) {
+                const node = intersects[0].object.userData;
+                const position = intersects[0].object.position;
+                
+                // Format the node data
+                let infoHTML = `
+                    <strong>${node.target_text || node.id}</strong><br>
+                    Weight: ${node.weight}<br>
+                    Cluster ID: ${node.cluster_id}<br>
+                    Position: x: ${position.x.toFixed(2)}, y: ${position.y.toFixed(2)}, z: ${position.z.toFixed(2)}<br>
+                `;
+
+                // Add centrality score if available
+                if (node.centrality_score !== null) {
+                    infoHTML += `Centrality Score: ${node.centrality_score.toFixed(4)}<br>`;
+                }
+
+                // Add neighbors information if available
+                if (node.neighbours_by_cluster) {
+                    infoHTML += '<br><strong>Neighbors by Cluster:</strong><br>';
+                    Object.entries(node.neighbours_by_cluster).forEach(([clusterId, neighbors]) => {
+                        infoHTML += `Cluster ${clusterId}: ${neighbors.length} neighbors<br>`;
+                    });
+                }
+
+                // Add time-based information if available
+                if (node.time_ids && node.weights) {
+                    infoHTML += '<br><strong>Weights over Time:</strong><br>';
+                    node.time_ids.forEach((timeId, index) => {
+                        infoHTML += `Time ${timeId}: ${node.weights[index]}<br>`;
+                    });
+                }
+
+                nodeInfoDiv.innerHTML = infoHTML;
+
+                // Highlight the node and its edges
+                this.highlightNode(node.id);
+            } else {
+                nodeInfoDiv.textContent = '';
+                this.resetHighlights();
+            }
+        });
+    }
+
+    highlightNode(nodeId) {
+        // Reset all nodes and edges to normal
+        this.resetHighlights();
+
+        // Find the node mesh
+        const nodeMesh = this.nodeMeshes.find(mesh => mesh.userData.id === nodeId);
+        if (!nodeMesh) return;
+
+        // Highlight the node
+        nodeMesh.material.opacity = 1;
+        nodeMesh.material.color.setHex(0xffff00);
+
+        // Highlight connected edges
+        this.edges.forEach(edge => {
+            const points = edge.geometry.attributes.position.array;
+            const start = new THREE.Vector3(points[0], points[1], points[2]);
+            const end = new THREE.Vector3(points[3], points[4], points[5]);
+            
+            if (start.equals(nodeMesh.position) || end.equals(nodeMesh.position)) {
+                edge.material.opacity = 0.8;
+                edge.material.color.setHex(0xffff00);
+            }
+        });
+    }
+
+    resetHighlights() {
+        // Reset nodes to their original appearance
+        this.nodeMeshes.forEach(mesh => {
+            mesh.material.opacity = mesh.userData.opacity || 1;
+            // Use the stored original color
+            mesh.material.color.copy(mesh.userData.originalColor);
+        });
+
+        // Reset edges to their original appearance
+        this.edges.forEach(edge => {
+            edge.material.opacity = 0.3;
+            edge.material.color.setHex(0xaaaaaa);
+        });
     }
 } 
