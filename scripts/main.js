@@ -22,6 +22,7 @@ class Main {
         this.initRenderer();
         this.initControls();
         this.setupComponents();
+        this.setupMouseInteraction();
         this.animate();
     }
 
@@ -61,8 +62,35 @@ class Main {
 
     initControls() {
         this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+        
+        // Enable damping for smooth camera movement
         this.controls.enableDamping = true;
         this.controls.dampingFactor = 0.05;
+        
+        // Set distance limits
+        this.controls.minDistance = 10;  // Minimum zoom distance
+        this.controls.maxDistance = 200; // Maximum zoom distance
+        
+        // Limit vertical rotation (in radians)
+        this.controls.minPolarAngle = Math.PI / 6;  // 30 degrees from top
+        this.controls.maxPolarAngle = Math.PI / 2.5; // ~72 degrees from top
+        
+        // Limit horizontal rotation (optional, comment out to allow full rotation)
+        // this.controls.minAzimuthAngle = -Math.PI / 4; // -45 degrees
+        // this.controls.maxAzimuthAngle = Math.PI / 4;  // 45 degrees
+        
+        // Disable panning limits
+        this.controls.enablePan = true;
+        
+        // Set the target to the center of our scene
+        this.controls.target.set(0, 0, 0);
+        
+        // Enable smooth camera movements
+        this.controls.enableZoom = true;
+        this.controls.zoomSpeed = 0.8;  // Make zooming smoother
+        
+        // Update the controls
+        this.controls.update();
     }
 
     setupComponents() {
@@ -75,8 +103,15 @@ class Main {
 
     animate() {
         requestAnimationFrame(() => this.animate());
+        const deltaTime = 0.016; // Approximately 60 FPS
         TWEEN.update();
         this.controls.update();
+        
+        // Update world animations
+        if (this.worldCreator) {
+            this.worldCreator.update(deltaTime);
+        }
+        
         this.renderer.render(this.scene, this.camera);
     }
 
@@ -84,6 +119,36 @@ class Main {
         this.camera.aspect = window.innerWidth / window.innerHeight;
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    setupMouseInteraction() {
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+
+        window.addEventListener('click', (event) => {
+            // Calculate mouse position in normalized device coordinates
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+            // Update the picking ray with the camera and mouse position
+            raycaster.setFromCamera(mouse, this.camera);
+
+            // Get all objects that might be clickable
+            const clickableObjects = [
+                ...this.worldCreator.anchors,
+                ...this.worldCreator.temporalAnchors
+            ];
+
+            // Calculate objects intersecting the picking ray
+            const intersects = raycaster.intersectObjects(clickableObjects);
+
+            if (intersects.length > 0) {
+                const clickedObject = intersects[0].object;
+                if (clickedObject.userData.clickable && clickedObject.userData.onClick) {
+                    clickedObject.userData.onClick();
+                }
+            }
+        });
     }
 }
 
@@ -93,7 +158,6 @@ document.addEventListener('DOMContentLoaded', () => {
     main = new Main();
     window.addEventListener('resize', () => main.onWindowResize());
 });
-
 
 
 

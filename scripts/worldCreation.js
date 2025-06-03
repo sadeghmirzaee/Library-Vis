@@ -3,10 +3,50 @@ class WorldCreator {
         this.group = group;
         this.anchors = [];
         this.temporalAnchors = [];
+        this.time = 0; // Add time variable for animation
+        this.createSurface();
         this.initializeAnchors();
         this.setupTemporalAnchorsUI();
     }
     
+    createSurface() {
+        // Create a 500x500 plane
+        const geometry = new THREE.PlaneGeometry(500, 500);
+        
+        // Create a material with grid texture
+        const material = new THREE.MeshPhysicalMaterial({
+            color: 0x444444,
+            side: THREE.DoubleSide,
+            transparent: true,
+            opacity: 0.9,
+            roughness: 0.6,
+            metalness: 0.262,
+            ior: 1.84087,
+            reflectivity: 0.22600,
+            // iridescence: 0.619,
+            // iridescenceIOR: 1.72623,
+            // sheen: 0.803,
+            // sheenRoughness: 0.521,
+            // sheenColor: new THREE.Color(0x000000),
+            // clearcoat: 0.47,
+            // clearcoatRoughness: 0.5,
+            // specularIntensity: 0.508,
+            // specularColor: new THREE.Color(0xffffff)
+        });
+
+        const surface = new THREE.Mesh(geometry, material);
+        
+        // Rotate the plane to be on XY plane (it's XZ by default)
+        surface.rotation.x = Math.PI / 2;
+        
+        // Add grid helper for better visual reference
+        const gridHelper = new THREE.GridHelper(1000, 100, 0x888888, 0x444444);
+       // gridHelper.rotation.x = Math.PI / 2;
+        
+        this.group.add(surface);
+        // this.group.add(gridHelper);
+    }
+
     initializeAnchors() {
         // Create a simple cube geometry
         const geometry = new THREE.IcosahedronGeometry(1, 0);
@@ -18,6 +58,33 @@ class WorldCreator {
         
         const earthSphere = new THREE.Mesh(geometry, material);
         earthSphere.position.set(0, 0, 0);
+        
+        // Store initial position for floating animation
+        earthSphere.userData.baseY = earthSphere.position.y;
+        earthSphere.userData.floatingAmplitude = 0.5; // How high it floats
+        earthSphere.userData.floatingSpeed = 1.5; // Speed of floating
+        
+        // Add click handler data
+        earthSphere.userData.clickable = true;
+        earthSphere.userData.onClick = () => {
+            material.color.setHex(0xff0000); // Change color to red
+            
+            // Create a new tween for smooth animation
+            new TWEEN.Tween(earthSphere.position)
+                .to({ x: 10, y: 10, z: 10 }, 1000) // Animate to position over 1 second
+                .easing(TWEEN.Easing.Quadratic.InOut)
+                .start()
+                .onComplete(() => {
+                    // Update base Y position for floating animation after movement
+                    earthSphere.userData.baseY = earthSphere.position.y;
+                });
+
+            // Animate the scale
+            new TWEEN.Tween(earthSphere.scale)
+                .to({ x: 2, y: 2, z: 2 }, 1000)
+                .easing(TWEEN.Easing.Quadratic.InOut)
+                .start();
+        };
         
         this.anchors.push(earthSphere);
         this.group.add(earthSphere);
@@ -168,5 +235,22 @@ class WorldCreator {
             this.anchors.splice(index, 1);
             this.group.remove(anchor);
         }
+    }
+
+    // Add update method for animations
+    update(deltaTime) {
+        this.time += deltaTime;
+        
+        // move the light
+       
+
+        // Update floating animation for all anchors
+        this.anchors.forEach(anchor => {
+            if (anchor.userData.baseY !== undefined) {
+                const amplitude = anchor.userData.floatingAmplitude || 0.5;
+                const speed = anchor.userData.floatingSpeed || 1.5;
+                anchor.position.y = anchor.userData.baseY + Math.sin(this.time * speed) * amplitude;
+            }
+        });
     }
 } 

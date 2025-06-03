@@ -95,7 +95,9 @@ class SCoTGraph {
 
             // Scale node size based on normalized weight (0.5 to 2.5 size range)
             const nodeSize = 0.5 + (normalizedWeight / 50) * 2;
-            const nodeGeometry = new THREE.SphereGeometry(nodeSize, 16, 16);
+            // Use OctahedronGeometry for a diamond-like shape
+            // Parameters: radius, detail level (0 for basic shape)
+            const nodeGeometry = new THREE.OctahedronGeometry(nodeSize, 0);
 
             // Convert the color string to a THREE.js color value
             let nodeColor;
@@ -113,10 +115,15 @@ class SCoTGraph {
             }
 
             // Create material with node's color
-            const nodeMaterial = new THREE.MeshBasicMaterial({
+            const nodeMaterial = new THREE.MeshPhysicalMaterial({
                 color: nodeColor,
                 opacity: node.opacity || 1,
-                transparent: true
+                transparent: true,
+                roughness: 0.6,
+                metalness: 0.262,
+                ior: 1.84087,
+                reflectivity: 0.22600,
+                // iridescence: 0.619,
             });
 
             const nodeMesh = new THREE.Mesh(nodeGeometry, nodeMaterial);
@@ -304,3 +311,4 @@ class SCoTGraph {
         });
     }
 } 
+
