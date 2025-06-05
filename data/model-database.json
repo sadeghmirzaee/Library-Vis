@@ -1,0 +1,146 @@
+[
+  {
+    "name": "San Francisco Bay Scale model",
+    "concreteness": 0.92,
+    "mathematicality": 0.18,
+    "computationality": 0.23,
+    "trajectory": [
+      { "concreteness": 0.92, "mathematicality": 0.18, "computationality": 0.23 },
+      { "concreteness": 0.90, "mathematicality": 0.20, "computationality": 0.25 },
+      { "concreteness": 0.88, "mathematicality": 0.22, "computationality": 0.27 },
+      { "concreteness": 0.86, "mathematicality": 0.24, "computationality": 0.29 },
+      { "concreteness": 0.84, "mathematicality": 0.26, "computationality": 0.31 },
+      { "concreteness": 0.82, "mathematicality": 0.28, "computationality": 0.33 },
+      { "concreteness": 0.80, "mathematicality": 0.30, "computationality": 0.35 },
+      { "concreteness": 0.78, "mathematicality": 0.32, "computationality": 0.37 },
+      { "concreteness": 0.76, "mathematicality": 0.34, "computationality": 0.39 },
+      { "concreteness": 0.74, "mathematicality": 0.36, "computationality": 0.41 }
+    ]
+  },
+  {
+    "name": "Lotka-Volterra equation",
+    "concreteness": 0.13,
+    "mathematicality": 0.97,
+    "computationality": 0.21,
+    "trajectory": [
+      { "concreteness": 0.13, "mathematicality": 0.97, "computationality": 0.21 },
+      { "concreteness": 0.15, "mathematicality": 0.95, "computationality": 0.23 },
+      { "concreteness": 0.17, "mathematicality": 0.93, "computationality": 0.25 },
+      { "concreteness": 0.19, "mathematicality": 0.91, "computationality": 0.27 },
+      { "concreteness": 0.21, "mathematicality": 0.89, "computationality": 0.29 },
+      { "concreteness": 0.23, "mathematicality": 0.87, "computationality": 0.31 },
+      { "concreteness": 0.25, "mathematicality": 0.85, "computationality": 0.33 },
+      { "concreteness": 0.27, "mathematicality": 0.83, "computationality": 0.35 },
+      { "concreteness": 0.29, "mathematicality": 0.81, "computationality": 0.37 },
+      { "concreteness": 0.31, "mathematicality": 0.79, "computationality": 0.39 }
+    ]
+  },
+  {
+    "name": "Schelling model of segregation",
+    "concreteness": 0.22,
+    "mathematicality": 0.15,
+    "computationality": 0.89,
+    "trajectory": [
+      { "concreteness": 0.22, "mathematicality": 0.15, "computationality": 0.89 },
+      { "concreteness": 0.24, "mathematicality": 0.17, "computationality": 0.87 },
+      { "concreteness": 0.26, "mathematicality": 0.19, "computationality": 0.85 },
+      { "concreteness": 0.28, "mathematicality": 0.21, "computationality": 0.83 },
+      { "concreteness": 0.30, "mathematicality": 0.23, "computationality": 0.81 },
+      { "concreteness": 0.32, "mathematicality": 0.25, "computationality": 0.79 },
+      { "concreteness": 0.34, "mathematicality": 0.27, "computationality": 0.77 },
+      { "concreteness": 0.36, "mathematicality": 0.29, "computationality": 0.75 },
+      { "concreteness": 0.38, "mathematicality": 0.31, "computationality": 0.73 },
+      { "concreteness": 0.40, "mathematicality": 0.33, "computationality": 0.71 }
+    ]
+  },
+  {
+    "name": "Derosophila the model organism",
+    "concreteness": 0.81,
+    "mathematicality": 0.37,
+    "computationality": 0.41,
+    "trajectory": [
+      { "concreteness": 0.81, "mathematicality": 0.37, "computationality": 0.41 },
+      { "concreteness": 0.79, "mathematicality": 0.39, "computationality": 0.43 },
+      { "concreteness": 0.77, "mathematicality": 0.41, "computationality": 0.45 },
+      { "concreteness": 0.75, "mathematicality": 0.43, "computationality": 0.47 },
+      { "concreteness": 0.73, "mathematicality": 0.45, "computationality": 0.49 },
+      { "concreteness": 0.71, "mathematicality": 0.47, "computationality": 0.51 },
+      { "concreteness": 0.69, "mathematicality": 0.49, "computationality": 0.53 },
+      { "concreteness": 0.67, "mathematicality": 0.51, "computationality": 0.55 },
+      { "concreteness": 0.65, "mathematicality": 0.53, "computationality": 0.57 },
+      { "concreteness": 0.63, "mathematicality": 0.55, "computationality": 0.59 }
+    ]
+  },
+  {
+    "name": "Harmonic equations for pendulum etc",
+    "concreteness": 0.29,
+    "mathematicality": 0.85,
+    "computationality": 0.33,
+    "trajectory": [
+      { "concreteness": 0.29, "mathematicality": 0.85, "computationality": 0.33 },
+      { "concreteness": 0.31, "mathematicality": 0.83, "computationality": 0.35 },
+      { "concreteness": 0.33, "mathematicality": 0.81, "computationality": 0.37 },
+      { "concreteness": 0.35, "mathematicality": 0.79, "computationality": 0.39 },
+      { "concreteness": 0.37, "mathematicality": 0.77, "computationality": 0.41 },
+      { "concreteness": 0.39, "mathematicality": 0.75, "computationality": 0.43 },
+      { "concreteness": 0.41, "mathematicality": 0.73, "computationality": 0.45 },
+      { "concreteness": 0.43, "mathematicality": 0.71, "computationality": 0.47 },
+      { "concreteness": 0.45, "mathematicality": 0.69, "computationality": 0.49 },
+      { "concreteness": 0.47, "mathematicality": 0.67, "computationality": 0.51 }
+    ]
+  },
+  {
+    "name": "Watson and Crick DNA helix",
+    "concreteness": 0.74,
+    "mathematicality": 0.22,
+    "computationality": 0.27,
+    "trajectory": [
+      { "concreteness": 0.74, "mathematicality": 0.22, "computationality": 0.27 },
+      { "concreteness": 0.72, "mathematicality": 0.24, "computationality": 0.29 },
+      { "concreteness": 0.70, "mathematicality": 0.26, "computationality": 0.31 },
+      { "concreteness": 0.68, "mathematicality": 0.28, "computationality": 0.33 },
+      { "concreteness": 0.66, "mathematicality": 0.30, "computationality": 0.35 },
+      { "concreteness": 0.64, "mathematicality": 0.32, "computationality": 0.37 },
+      { "concreteness": 0.62, "mathematicality": 0.34, "computationality": 0.39 },
+      { "concreteness": 0.60, "mathematicality": 0.36, "computationality": 0.41 },
+      { "concreteness": 0.58, "mathematicality": 0.38, "computationality": 0.43 },
+      { "concreteness": 0.56, "mathematicality": 0.40, "computationality": 0.45 }
+    ]
+  },
+  {
+    "name": "xDNA",
+    "concreteness": 0.61,
+    "mathematicality": 0.31,
+    "computationality": 0.12,
+    "trajectory": [
+      { "concreteness": 0.61, "mathematicality": 0.31, "computationality": 0.12 },
+      { "concreteness": 0.63, "mathematicality": 0.33, "computationality": 0.14 },
+      { "concreteness": 0.65, "mathematicality": 0.35, "computationality": 0.16 },
+      { "concreteness": 0.67, "mathematicality": 0.37, "computationality": 0.18 },
+      { "concreteness": 0.69, "mathematicality": 0.39, "computationality": 0.20 },
+      { "concreteness": 0.71, "mathematicality": 0.41, "computationality": 0.22 },
+      { "concreteness": 0.73, "mathematicality": 0.43, "computationality": 0.24 },
+      { "concreteness": 0.75, "mathematicality": 0.45, "computationality": 0.26 },
+      { "concreteness": 0.77, "mathematicality": 0.47, "computationality": 0.28 },
+      { "concreteness": 0.79, "mathematicality": 0.49, "computationality": 0.30 }
+    ]
+  },
+  {
+    "name": "Game of Life cellular automata",
+    "concreteness": 0.44,
+    "mathematicality": 0.54,
+    "computationality": 0.97,
+    "trajectory": [
+      { "concreteness": 0.44, "mathematicality": 0.54, "computationality": 0.97 },
+      { "concreteness": 0.46, "mathematicality": 0.56, "computationality": 0.95 },
+      { "concreteness": 0.48, "mathematicality": 0.58, "computationality": 0.93 },
+      { "concreteness": 0.50, "mathematicality": 0.60, "computationality": 0.91 },
+      { "concreteness": 0.52, "mathematicality": 0.62, "computationality": 0.89 },
+      { "concreteness": 0.54, "mathematicality": 0.64, "computationality": 0.87 },
+      { "concreteness": 0.56, "mathematicality": 0.66, "computationality": 0.85 },
+      { "concreteness": 0.58, "mathematicality": 0.68, "computationality": 0.83 },
+      { "concreteness": 0.60, "mathematicality": 0.70, "computationality": 0.81 },
+      { "concreteness": 0.62, "mathematicality": 0.72, "computationality": 0.79 }
+    ]
+  }
+]

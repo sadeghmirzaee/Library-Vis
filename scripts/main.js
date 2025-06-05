@@ -5,16 +5,12 @@ class Main {
         this.renderer = null;
         this.controls = null;
 
-        // Groups for organizing the scene
-        this.bookVisualizationGroup = new THREE.Group();
-        this.worldAnchorsGroup = new THREE.Group();
-        this.scotGraphGroup = new THREE.Group();
+        // Group for organizing the scene
+        this.modelsGroup = new THREE.Group();
 
         // Components
-        this.bookVisualization = null;
-        this.worldCreator = null;
+        this.modelsVisualization = null;
         this.fileHandler = null;
-        this.scotGraph = null;
 
         this.init();
     }
@@ -32,19 +28,16 @@ class Main {
         this.scene = new THREE.Scene();
         this.scene.background = new THREE.Color(0x363636);
 
-        // Add groups to scene
-        this.scene.add(this.bookVisualizationGroup);
-        this.scene.add(this.worldAnchorsGroup);
-        this.scene.add(this.scotGraphGroup);
+        // Add group to scene
+        this.scene.add(this.modelsGroup);
 
-        // Add ambient light to the scene
+        // Add lights
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
         this.scene.add(ambientLight);
 
-        // Add axes helper (red = X, green = Y, blue = Z)
-        const axesHelper = new THREE.AxesHelper(2000); // Size of the axes (length of each axis)
-        axesHelper.position.set(0, 0, 0); // Position at the center
-        this.scene.add(axesHelper);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight.position.set(10, 10, 10);
+        this.scene.add(directionalLight);
     }
 
     initCamera() {
@@ -60,7 +53,7 @@ class Main {
             antialias: true
         });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
-        this.renderer.setPixelRatio(window.devicePixelRatio); // Add support for high DPI displays
+        this.renderer.setPixelRatio(window.devicePixelRatio);
     }
 
     initControls() {
@@ -70,17 +63,11 @@ class Main {
     }
 
     setupComponents() {
-        // Initialize book visualization
-        this.bookVisualization = new BookVisualization(this.bookVisualizationGroup);
-
-        // Initialize world creator
-        this.worldCreator = new WorldCreator(this.worldAnchorsGroup);
+        // Initialize model visualization
+        this.modelsVisualization = new ModelsVisualization(this.modelsGroup);
 
         // Initialize file handler
-        this.fileHandler = new FileHandler(this.bookVisualization);
-
-        // Initialize SCoT graph
-        this.scotGraph = new SCoTGraph(this.scotGraphGroup);
+        this.fileHandler = new FileHandler(this.modelsVisualization);
     }
 
     animate() {

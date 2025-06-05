@@ -6,75 +6,31 @@ body {
     background-color: #111111;
 }
 
-#info {
-    position: absolute;
-    top: 10px;
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    text-align: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 10px 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#info {
     color: #ffffff;
-    padding: 5px;
-    font-size: 14px;
-    z-index: 100;
-    pointer-events: none;
-}
-
-.control-bar {
-    position: absolute;
-    top: 60px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 100;
-    display: flex;
-    gap: 15px;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 10px 20px;
-    border-radius: 5px;
-    white-space: nowrap;
-}
-
-#controls {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-}
-
-#controls select {
-    padding: 5px 10px;
-    border-radius: 4px;
-    border: 1px solid #666;
-    background-color: #333;
-    color: #fff;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-#controls select:hover {
-    background-color: #444;
-}
-
-#toggleView {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 4px;
-    background-color: #4CAF50;
-    color: white;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s;
-}
-
-#toggleView:hover {
-    opacity: 0.9;
+    padding: 0 20px;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 #fileUploadContainer {
-    display: flex;
-    gap: 15px;
-    align-items: center;
+    padding: 0 20px;
 }
 
-#loadBooks {
+#loadModels {
     padding: 8px 15px;
     border: none;
     border-radius: 4px;
@@ -82,19 +38,15 @@ body {
     color: white;
     cursor: pointer;
     font-size: 14px;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
 }
 
-#loadBooks:hover {
-    opacity: 0.9;
+#loadModels:hover {
+    background-color: #1976D2;
+    transform: translateY(-1px);
 }
 
-#fileName {
-    color: #fff;
-    font-size: 14px;
-}
-
-#bookInfo {
+#modelInfo {
     position: absolute;
     bottom: 20px;
     left: 20px;
@@ -106,68 +58,11 @@ body {
     width: 300px;
     min-height: 100px;
     z-index: 100;
-    display: block;  /* Always show the panel */
+    display: none;
 }
 
-#bookInfo:empty {
-    padding: 15px;
-    content: 'Hover over a book to see its details';
-}
-
-#bookInfo:empty::before {
-    content: 'Hover over a book to see its details';
-    color: #888;
-    font-style: italic;
-}
-
-#axisLabel {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #ff8800;
-    font-size: 14px;
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 5px 15px;
-    border-radius: 3px;
-    z-index: 100;
-}
-
-/* Hover effects */
-button:hover, select:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-/* Focus styles for accessibility */
-button:focus, select:focus {
-    outline: 2px solid #4CAF50;
-    outline-offset: 2px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .control-bar {
-        flex-direction: column;
-        align-items: stretch;
-        width: 90%;
-        max-width: 300px;
-        white-space: normal;
-    }
-
-    #controls, #fileUploadContainer {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    #bookInfo {
-        left: 50%;
-        right: auto;
-        transform: translateX(-50%);
-        width: 80%;
-        max-width: none;
-        top: 250px;
-    }
+#modelInfo:not(:empty) {
+    display: block;
 }
 
 #visualization-container {
@@ -183,4 +78,29 @@ button:focus, select:focus {
     width: 100%;
     height: 100%;
     display: block;
+}
+
+/* Focus styles for accessibility */
+button:focus {
+    outline: 2px solid #4CAF50;
+    outline-offset: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        padding: 10px 0;
+    }
+
+    #info {
+        margin-bottom: 10px;
+    }
+
+    #modelInfo {
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+        max-width: 300px;
+    }
 } 
