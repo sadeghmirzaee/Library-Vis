@@ -3,26 +3,36 @@ class ModelsVisualization {
         this.group = group;
         this.models = [];
         this.modelMeshes = [];
+        this.raycaster = new THREE.Raycaster();
+        this.mouse = new THREE.Vector2();
+        this.camera = null; // Will be set from outside
+        this.currentHighlightedModel = null;
         this.createDefaultVisualization();
     }
 
     createDefaultVisualization() {
-        // Create a grid for each plane
-        const gridHelperXY = new THREE.GridHelper(100, 10, 0x888888, 0x444444);
-        gridHelperXY.rotation.x = Math.PI / 2;
-        this.group.add(gridHelperXY);
+        // Create the axes helper
+        const gridHelper = new THREE.AxesHelper(100);
+        this.group.add(gridHelper);
 
-        const gridHelperXZ = new THREE.GridHelper(100, 10, 0x888888, 0x444444);
-        this.group.add(gridHelperXZ);
-
-        const gridHelperYZ = new THREE.GridHelper(100, 10, 0x888888, 0x444444);
-        gridHelperYZ.rotation.z = Math.PI / 2;
-        this.group.add(gridHelperYZ);
+        // Add directional cones at the end of each axis
+        this.createAxisCone(new THREE.Vector3(100, 0, 0), new THREE.Euler(0, 0, -Math.PI/2), 0xff0000); // X axis - red
+        this.createAxisCone(new THREE.Vector3(0, 100, 0), new THREE.Euler(0, 0, 0), 0x00ff00);    // Y axis - green
+        this.createAxisCone(new THREE.Vector3(0, 0, 100), new THREE.Euler(Math.PI/2, 0, 0), 0x0000ff);  // Z axis - blue
 
         // Add axis labels
-        this.createAxisLabel('Concreteness', new THREE.Vector3(100, 0, 0), 'x');
-        this.createAxisLabel('Mathematicality', new THREE.Vector3(0, 100, 0), 'y');
-        this.createAxisLabel('Computationality', new THREE.Vector3(0, 0, 100), 'z');
+        this.createAxisLabel('Concreteness', new THREE.Vector3(105, 0, 0), 'x');
+        this.createAxisLabel('Mathematicality', new THREE.Vector3(0, 105, 0), 'y');
+        this.createAxisLabel('Computationality', new THREE.Vector3(0, 0, 105), 'z');
+    }
+
+    createAxisCone(position, rotation, color) {
+        const geometry = new THREE.ConeGeometry(2, 6, 32);
+        const material = new THREE.MeshBasicMaterial({ color: color });
+        const cone = new THREE.Mesh(geometry, material);
+        cone.position.copy(position);
+        cone.setRotationFromEuler(rotation);
+        this.group.add(cone);
     }
 
     createAxisLabel(text, position, axis) {
@@ -73,10 +83,21 @@ class ModelsVisualization {
         });
     }
 
+    calculateColorFromAttributes(model) {
+        // Convert the 0-1 values to 0-255 range and then to hex
+        const r = Math.floor(model.concreteness * 255);
+        const g = Math.floor(model.mathematicality * 255);
+        const b = Math.floor(model.computationality * 255);
+        
+        // Combine into a single hex color (0xRRGGBB)
+        return (r << 16) | (g << 8) | b;
+    }
+
     createModelMesh(model) {
         const geometry = new THREE.SphereGeometry(2, 32, 32);
+        const colorcode = this.calculateColorFromAttributes(model);
         const material = new THREE.MeshPhongMaterial({
-            color: 0x4169E1,
+            color: colorcode,
             transparent: true,
             opacity: 0.8,
             shininess: 30
@@ -86,13 +107,16 @@ class ModelsVisualization {
         
         // Position based on model attributes (scaled by 100 to match grid size)
         mesh.position.set(
-            model.concreteness * 100 - 50,    // X axis: Concreteness
-            model.mathematicality * 100 - 50,  // Y axis: Mathematicality
-            model.computationality * 100 - 50  // Z axis: Computationality
+            model.concreteness * 100,    // X axis: Concreteness
+            model.mathematicality * 100,  // Y axis: Mathematicality
+            model.computationality * 100  // Z axis: Computationality
         );
         
-        // Store the model data in the mesh
-        mesh.userData = model;
+        // Store the model data and original color in the mesh
+        mesh.userData = {
+            ...model,
+            originalColor: colorcode
+        };
         
         // Add label for the model name
         const label = this.createModelLabel(model.name);
@@ -121,5 +145,65 @@ class ModelsVisualization {
         const sprite = new THREE.Sprite(spriteMaterial);
         sprite.scale.set(15, 4, 1);
         return sprite;
+    }
+
+    createModelHoverHighlight(renderer, camera, domElement) {
+        this.camera = camera;
+        
+        // Store original colors for restoration
+        this.modelMeshes.forEach(mesh => {
+            mesh.userData.originalColor = mesh.material.color.getHex();
+        });
+
+        // Add mouse move listener
+        domElement.addEventListener('mousemove', (event) => {
+            // Calculate mouse position in normalized device coordinates (-1 to +1)
+            this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+            // Update the picking ray with the camera and mouse position
+            this.raycaster.setFromCamera(this.mouse, camera);
+
+            // Calculate objects intersecting the picking ray
+            const intersects = this.raycaster.intersectObjects(this.modelMeshes);
+
+            if (intersects.length > 0) {
+                // Mouse is over a model
+                const hoveredMesh = intersects[0].object;
+                
+                // If it's a different model than the one currently highlighted
+                if (this.currentHighlightedModel !== hoveredMesh) {
+                    // Restore previous highlighted model's color if exists
+                    if (this.currentHighlightedModel) {
+                        this.currentHighlightedModel.material.color.setHex(
+                            this.currentHighlightedModel.userData.originalColor
+                        );
+                        this.currentHighlightedModel.material.opacity = 0.8;
+                    }
+
+                    // Highlight new model
+                    this.currentHighlightedModel = hoveredMesh;
+                    const originalColor = new THREE.Color(hoveredMesh.userData.originalColor);
+                    
+                    // Make it brighter and more opaque (increased from 1.5 to 2.0)
+                    hoveredMesh.material.color.setRGB(
+                        Math.min(originalColor.r * 2.0, 1),
+                        Math.min(originalColor.g * 2.0, 1),
+                        Math.min(originalColor.b * 2.0, 1)
+                    );
+                    hoveredMesh.material.opacity = 1.0;
+                }
+            } else if (this.currentHighlightedModel) {
+                // Mouse is not over any model, restore original color
+                this.currentHighlightedModel.material.color.setHex(
+                    this.currentHighlightedModel.userData.originalColor
+                );
+                this.currentHighlightedModel.material.opacity = 0.8;
+                this.currentHighlightedModel = null;
+            }
+
+            // Request render update
+            renderer.render(this.group.parent, camera);
+        });
     }
 } 

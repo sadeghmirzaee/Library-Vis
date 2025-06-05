@@ -6,14 +6,88 @@
 </head>
 <body>
     <header>
-        <div id="info">
-            Model Space
-        </div>
-        <div id="fileUploadContainer">
+        <div id="leftButtons" class="headerButtons">
             <input type="file" id="modelDatabaseInput" accept=".json" style="display: none;">
             <button id="loadModels">Load Models</button>
         </div>
+        <div id="info">
+            Model Space
+        </div>
+        <div id="rightButtons" class="headerButtons">
+            <button id="aboutButton">About</button>
+        </div>
     </header>
+
+    <!-- About Dialog -->
+    <div id="aboutDialog" class="dialog">
+        <div class="dialog-content">
+            <span class="close-button">&times;</span>
+            <h2>About Model Space</h2>
+            <div class="dialog-text">
+                <p>Model Space is a 3D visualization tool for exploring scientific models in a three-dimensional space defined by:</p>
+                <ul>
+                    <li>Concreteness (X-axis)</li>
+                    <li>Mathematicality (Y-axis)</li>
+                    <li>Computationality (Z-axis)</li>
+                </ul>
+                <p>Each model is represented as a sphere whose:</p>
+                <ul>
+                    <li>Position reflects its scores on these three dimensions</li>
+                    <li>Color is derived from its position (RGB = XYZ)</li>
+                </ul>
+
+                <h3>How to Use</h3>
+                <p>1. Loading Models:</p>
+                <ul>
+                    <li>Click the "Load Models" button to select a JSON file containing model data</li>
+                    <li>The file should contain an array of models with concreteness, mathematicality, and computationality values</li>
+                </ul>
+
+                <p>2. Navigation:</p>
+                <ul>
+                    <li>Left-click and drag to rotate the view</li>
+                    <li>Right-click and drag to pan</li>
+                    <li>Scroll wheel to zoom in/out</li>
+                    <li>Hover over models to highlight them</li>
+                </ul>
+
+                <h3>Understanding the Visualization</h3>
+                <p>The three axes represent different aspects of scientific models:</p>
+                
+                <h4>Concreteness (X-axis, Red)</h4>
+                <p>Measures how tangible or physical a model is. Higher values indicate more concrete, physical representations, while lower values suggest more abstract concepts.</p>
+
+                <h4>Mathematicality (Y-axis, Green)</h4>
+                <p>Represents the degree of mathematical formalization. Higher values indicate more mathematical models with formal equations and proofs, while lower values suggest more qualitative descriptions.</p>
+
+                <h4>Computationality (Z-axis, Blue)</h4>
+                <p>Indicates how computational or algorithmic a model is. Higher values represent models that are more readily implemented as computer programs or simulations.</p>
+
+                <h3>Color Coding</h3>
+                <p>Each model's color is determined by its position:</p>
+                <ul>
+                    <li>Red component comes from Concreteness value</li>
+                    <li>Green component comes from Mathematicality value</li>
+                    <li>Blue component comes from Computationality value</li>
+                </ul>
+                <p>This creates an intuitive visual connection between a model's position and its appearance.</p>
+
+                <h3>Project Information</h3>
+                <p>Created by Sadegh Mirzaee</p>
+                <p>For more information, visit: <a href="https://github.com/yourusername/ModelSpace" target="_blank">GitHub Repository</a></p>
+                
+                <h3>Technical Details</h3>
+                <p>Built using:</p>
+                <ul>
+                    <li>Three.js for 3D visualization</li>
+                    <li>Modern JavaScript (ES6+)</li>
+                    <li>HTML5 Canvas</li>
+                    <li>CSS3 for styling</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <div id="visualization-container">
         <canvas id="visualization-canvas"></canvas>
     </div>
@@ -22,6 +96,7 @@
     <!-- Third-party libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/DragControls.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js"></script>
     
     <!-- Application scripts -->
