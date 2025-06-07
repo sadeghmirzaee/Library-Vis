@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "@types/three": "^0.177.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "three": "^0.177.0"
+  }
+}

@@ -1,3 +1,8 @@
+/**
+ * @type {typeof import('three')}
+ */
+var THREE = window.THREE;
+
 class Main {
     constructor() {
         this.scene = null;
@@ -39,15 +44,15 @@ class Main {
         this.scene.add(ambientLight);
 
         // Add axes helper (red = X, green = Y, blue = Z)
-        const axesHelper = new THREE.AxesHelper(2000); // Size of the axes (length of each axis)
+        const axesHelper = new THREE.AxesHelper(100); // Size of the axes (length of each axis)
         axesHelper.position.set(0, 0, 0); // Position at the center
         this.scene.add(axesHelper);
+        
     }
 
     initCamera() {
         this.camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 1000);
-        this.camera.position.set(100, 100, 100);
-        this.camera.lookAt(0, 0, 0);
+        this.camera.position.set(100, 100, 200);
     }
 
     initRenderer() {
@@ -62,33 +67,52 @@ class Main {
 
     initControls() {
         this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
-        
+
         // Enable damping for smooth camera movement
         this.controls.enableDamping = true;
         this.controls.dampingFactor = 0.05;
-        
+
         // Set distance limits
         this.controls.minDistance = 10;  // Minimum zoom distance
-        this.controls.maxDistance = 200; // Maximum zoom distance
-        
+        this.controls.maxDistance = 500; // Maximum zoom distance
+
         // Limit vertical rotation (in radians)
-        this.controls.minPolarAngle = Math.PI / 6;  // 30 degrees from top
-        this.controls.maxPolarAngle = Math.PI / 2.5; // ~72 degrees from top
-        
+        this.controls.minPolarAngle = Math.PI / 12;  // 30 degrees from top
+        this.controls.maxPolarAngle = Math.PI / 2; // ~72 degrees from top
+
         // Limit horizontal rotation (optional, comment out to allow full rotation)
         // this.controls.minAzimuthAngle = -Math.PI / 4; // -45 degrees
         // this.controls.maxAzimuthAngle = Math.PI / 4;  // 45 degrees
-        
-        // Disable panning limits
+
+        // Enable panning and add panning limits
         this.controls.enablePan = true;
-        
+
+        // Add panning limits for x and y axes
+        const panLimits = {
+            minX: -500,
+            maxX: 500,
+            minY: -500,
+            maxY: 500
+        };
+
+        // // Save reference to controls for use in event
+        // const controls = this.controls;
+
+        // // Listen to controls change and clamp target position
+        // controls.addEventListener('change', function () {
+        //     const t = controls.target;
+        //     t.x = Math.max(panLimits.minX, Math.min(panLimits.maxX, t.x));
+        //     t.y = Math.max(panLimits.minY, Math.min(panLimits.maxY, t.y));
+        // });
+
         // Set the target to the center of our scene
-        this.controls.target.set(0, 0, 0);
-        
+        this.controls.target.set(30, 30, 0);
+
         // Enable smooth camera movements
         this.controls.enableZoom = true;
         this.controls.zoomSpeed = 0.8;  // Make zooming smoother
-        
+
+
         // Update the controls
         this.controls.update();
     }
@@ -106,12 +130,12 @@ class Main {
         const deltaTime = 0.016; // Approximately 60 FPS
         TWEEN.update();
         this.controls.update();
-        
+
         // Update world animations
         if (this.worldCreator) {
             this.worldCreator.update(deltaTime);
         }
-        
+
         this.renderer.render(this.scene, this.camera);
     }
 

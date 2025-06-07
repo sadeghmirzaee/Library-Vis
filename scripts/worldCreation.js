@@ -1,3 +1,8 @@
+/**
+ * @type {typeof import('three')}
+ */
+var THREE = window.THREE;
+
 class WorldCreator {
     constructor(group) {
         this.group = group;
@@ -38,61 +43,27 @@ class WorldCreator {
         
         // Rotate the plane to be on XY plane (it's XZ by default)
         surface.rotation.x = Math.PI / 2;
+        surface.position.set(0, -2, 0);
         
         // Add grid helper for better visual reference
-        const gridHelper = new THREE.GridHelper(1000, 100, 0x888888, 0x444444);
-       // gridHelper.rotation.x = Math.PI / 2;
+        const gridHelper = new THREE.GridHelper(500, 100, 0x888888, 0x444444);
+        gridHelper.rotation.x = Math.PI / 2;
         
         this.group.add(surface);
-        // this.group.add(gridHelper);
+        this.group.add(gridHelper);
     }
 
     initializeAnchors() {
-        // Create a simple cube geometry
-        const geometry = new THREE.IcosahedronGeometry(1, 0);
-        const material = new THREE.MeshBasicMaterial({
-            color: 0x00ff00,
-            transparent: true,
-            opacity: 0.8
-        });
         
-        const earthSphere = new THREE.Mesh(geometry, material);
-        earthSphere.position.set(0, 0, 0);
-        
-        // Store initial position for floating animation
-        earthSphere.userData.baseY = earthSphere.position.y;
-        earthSphere.userData.floatingAmplitude = 0.5; // How high it floats
-        earthSphere.userData.floatingSpeed = 1.5; // Speed of floating
-        
-        // Add click handler data
-        earthSphere.userData.clickable = true;
-        earthSphere.userData.onClick = () => {
-            material.color.setHex(0xff0000); // Change color to red
-            
-            // Create a new tween for smooth animation
-            new TWEEN.Tween(earthSphere.position)
-                .to({ x: 10, y: 10, z: 10 }, 1000) // Animate to position over 1 second
-                .easing(TWEEN.Easing.Quadratic.InOut)
-                .start()
-                .onComplete(() => {
-                    // Update base Y position for floating animation after movement
-                    earthSphere.userData.baseY = earthSphere.position.y;
-                });
-
-            // Animate the scale
-            new TWEEN.Tween(earthSphere.scale)
-                .to({ x: 2, y: 2, z: 2 }, 1000)
-                .easing(TWEEN.Easing.Quadratic.InOut)
-                .start();
-        };
-        
-        this.anchors.push(earthSphere);
-        this.group.add(earthSphere);
+        // Add a point light near the cube to make it visible
+        const light1 = new THREE.PointLight(0xffffff, 2, 150);
+        light1.position.set(30, 60, 80);
+        this.group.add(light1);
 
         // Add a point light near the cube to make it visible
-        const light = new THREE.PointLight(0xffffff, 1, 100);
-        light.position.set(30, 20, 30);
-        this.group.add(light);
+        const light2 = new THREE.PointLight(0xffffff, 1, 200);
+        light2.position.set(80, 80, -80);
+        this.group.add(light2);
     }
 
     setupTemporalAnchorsUI() {
@@ -253,4 +224,4 @@ class WorldCreator {
             }
         });
     }
-} 
+}

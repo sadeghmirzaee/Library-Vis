@@ -1,3 +1,8 @@
+/**
+ * @type {typeof import('three')}
+ */
+var THREE = window.THREE;
+
 class SCoTGraph {
     constructor(group) {
         this.group = group;
@@ -10,6 +15,7 @@ class SCoTGraph {
         // --- BEGIN: Load default data on page load ---
         // Paste the contents of SCoT-Bar-Clusters.json here as a JS object.
         // Example structure (replace with your actual data):
+        this.defaultData = [];
         this.defaultData = {
   "nodes": [
     {
@@ -54211,7 +54217,7 @@ class SCoTGraph {
             const nodeSize = 0.5 + (normalizedWeight / 50) * 2;
             // Use OctahedronGeometry for a diamond-like shape
             // Parameters: radius, detail level (0 for basic shape)
-            const nodeGeometry = new THREE.OctahedronGeometry(nodeSize, 0);
+            const nodeGeometry = new THREE.SphereGeometry(nodeSize, 32, 32);
 
             // Convert the color string to a THREE.js color value
             let nodeColor;
