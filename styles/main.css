@@ -19,6 +19,20 @@ header {
     z-index: 100;
 }
 
+a {
+  color: rgb(101, 185, 6);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover, a:focus {
+  color: #fff;
+  background: rgb(101, 185, 6);
+  text-decoration: none;
+  border-radius: 2px;
+  padding: 2px 4px;
+}
+
 #info {
     color: #ffffff;
     font-size: 18px;
@@ -231,5 +245,5 @@ button:focus, select:focus {
 
 .hint {
     font-size: 0.85em;
-    color: #00a025;
+    color: #a89d01;
 }
